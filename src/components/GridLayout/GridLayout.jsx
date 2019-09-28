@@ -17,6 +17,10 @@ const StyledGridSegment = styled(Grid)`
   width: 100%;
 `;
 
+const StyledBodySegment = styled(StyledGridSegment)`
+  padding: 1em 0;
+`;
+
 const HeaderContainer = styled.div`
   display: flex;
   height: 100%;
@@ -26,7 +30,7 @@ const HeaderContainer = styled.div`
 
 const FooterContainer = styled.div`
   display: flex;
-  justify-content: center;
+  justify-content: space-evenly;
 `;
 
 const BodyContainer = styled.div`
@@ -47,9 +51,9 @@ const GridLayout = ({ header, body, footer }) => {
       <StyledGridSegment item height={HEADER_HEIGHT}>
         <HeaderContainer>{header}</HeaderContainer>
       </StyledGridSegment>
-      <StyledGridSegment item height={BODY_HEIGHT}>
+      <StyledBodySegment item height={BODY_HEIGHT}>
         <BodyContainer>{body}</BodyContainer>
-      </StyledGridSegment>
+      </StyledBodySegment>
       <StyledGridSegment item height={FOOTER_HEIGHT}>
         <FooterContainer>{footer}</FooterContainer>
       </StyledGridSegment>
@@ -60,7 +64,7 @@ const GridLayout = ({ header, body, footer }) => {
 GridLayout.propTypes = {
   header: PropTypes.element.isRequired,
   body: PropTypes.element.isRequired,
-  footer: PropTypes.element.isRequired,
+  footer: PropTypes.arrayOf(PropTypes.element).isRequired,
 };
 
 export default GridLayout;
