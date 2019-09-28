@@ -6,6 +6,7 @@ import { compose, withProps } from 'recompose';
 import { addData } from '../../store/data/actions';
 import { dataSelector } from '../../store/selectors/data';
 import { locationSelector } from '../../store/selectors/location';
+import marker from './marker.png';
 
 const DEFAULT_ZOOM = 11;
 const DEFAULT_CENTER = {
@@ -13,6 +14,226 @@ const DEFAULT_CENTER = {
   lng: 8.55,
 };
 
+const mapStyles = [
+  {
+    elementType: 'geometry',
+    stylers: [
+      {
+        color: '#f5f5f5',
+      },
+    ],
+  },
+  {
+    elementType: 'labels.icon',
+    stylers: [
+      {
+        visibility: 'off',
+      },
+    ],
+  },
+  {
+    elementType: 'labels.text.fill',
+    stylers: [
+      {
+        color: '#616161',
+      },
+    ],
+  },
+  {
+    elementType: 'labels.text.stroke',
+    stylers: [
+      {
+        color: '#f5f5f5',
+      },
+    ],
+  },
+  {
+    featureType: 'administrative.land_parcel',
+    elementType: 'labels.text.fill',
+    stylers: [
+      {
+        color: '#bdbdbd',
+      },
+    ],
+  },
+  {
+    featureType: 'administrative.neighborhood',
+    stylers: [
+      {
+        visibility: 'off',
+      },
+    ],
+  },
+  {
+    featureType: 'poi',
+    elementType: 'geometry',
+    stylers: [
+      {
+        color: '#eeeeee',
+      },
+    ],
+  },
+  {
+    featureType: 'poi',
+    elementType: 'labels.text',
+    stylers: [
+      {
+        visibility: 'off',
+      },
+    ],
+  },
+  {
+    featureType: 'poi',
+    elementType: 'labels.text.fill',
+    stylers: [
+      {
+        color: '#757575',
+      },
+    ],
+  },
+  {
+    featureType: 'poi.business',
+    stylers: [
+      {
+        visibility: 'off',
+      },
+    ],
+  },
+  {
+    featureType: 'poi.park',
+    elementType: 'geometry',
+    stylers: [
+      {
+        color: '#e5e5e5',
+      },
+    ],
+  },
+  {
+    featureType: 'poi.park',
+    elementType: 'labels.text.fill',
+    stylers: [
+      {
+        color: '#9e9e9e',
+      },
+    ],
+  },
+  {
+    featureType: 'road',
+    elementType: 'geometry',
+    stylers: [
+      {
+        color: '#ffffff',
+      },
+    ],
+  },
+  {
+    featureType: 'road',
+    elementType: 'labels',
+    stylers: [
+      {
+        visibility: 'off',
+      },
+    ],
+  },
+  {
+    featureType: 'road',
+    elementType: 'labels.icon',
+    stylers: [
+      {
+        visibility: 'off',
+      },
+    ],
+  },
+  {
+    featureType: 'road.arterial',
+    elementType: 'labels.text.fill',
+    stylers: [
+      {
+        color: '#757575',
+      },
+    ],
+  },
+  {
+    featureType: 'road.highway',
+    elementType: 'geometry',
+    stylers: [
+      {
+        color: '#dadada',
+      },
+    ],
+  },
+  {
+    featureType: 'road.highway',
+    elementType: 'labels.text.fill',
+    stylers: [
+      {
+        color: '#616161',
+      },
+    ],
+  },
+  {
+    featureType: 'road.local',
+    elementType: 'labels.text.fill',
+    stylers: [
+      {
+        color: '#9e9e9e',
+      },
+    ],
+  },
+  {
+    featureType: 'transit',
+    stylers: [
+      {
+        visibility: 'off',
+      },
+    ],
+  },
+  {
+    featureType: 'transit.line',
+    elementType: 'geometry',
+    stylers: [
+      {
+        color: '#e5e5e5',
+      },
+    ],
+  },
+  {
+    featureType: 'transit.station',
+    elementType: 'geometry',
+    stylers: [
+      {
+        color: '#eeeeee',
+      },
+    ],
+  },
+  {
+    featureType: 'water',
+    elementType: 'geometry',
+    stylers: [
+      {
+        color: '#c9c9c9',
+      },
+    ],
+  },
+  {
+    featureType: 'water',
+    elementType: 'labels.text',
+    stylers: [
+      {
+        visibility: 'off',
+      },
+    ],
+  },
+  {
+    featureType: 'water',
+    elementType: 'labels.text.fill',
+    stylers: [
+      {
+        color: '#9e9e9e',
+      },
+    ],
+  },
+];
 const itemToWaypoint = ({ geo: { lat, lng } }) => ({ location: { lat, lng } });
 
 const dataToWaypoints = (data) =>
@@ -76,29 +297,41 @@ const Map = compose(
       <GoogleMap
         defaultZoom={DEFAULT_ZOOM}
         defaultCenter={DEFAULT_CENTER}
-        options={{ streetViewControl: false, mapTypeControl: false }}
+        options={{ streetViewControl: false, mapTypeControl: false, styles: mapStyles }}
       >
         {data &&
           data.map((item) => (
             <Marker
               key={item.emoji}
               icon={{
-                url: 'http://maps.google.com/mapfiles/ms/icons/blue-dot.png',
+                url: marker,
+                labelOrigin: new window.google.maps.Point(24, 49),
               }}
-              label={{ text: `${item.emoji} ${item.name}`, color: '#ff5f6d', fontWeight: 'bold' }}
+              label={{ text: `${item.emoji} ${item.name}`, color: '#27DEBF', fontWeight: 'bold' }}
               position={item.geo}
             />
           ))}
         {location && (
           <Marker
             icon={{
-              url: 'http://maps.google.com/mapfiles/ms/icons/blue-dot.png',
+              url: marker,
+              labelOrigin: new window.google.maps.Point(24, 49),
             }}
-            label={{ text: 'you', color: '#ff5f6d', fontWeight: 'bold' }}
+            label={{ text: 'you', color: '#27DEBF', fontWeight: 'bold' }}
             position={location}
           />
         )}
-        {directions && <DirectionsRenderer directions={directions} options={{ markerOptions: { visible: false } }} />}
+        {directions && (
+          <DirectionsRenderer
+            directions={directions}
+            options={{
+              markerOptions: { visible: false },
+              polylineOptions: {
+                strokeColor: '#27DEBF',
+              },
+            }}
+          />
+        )}
       </GoogleMap>
     </React.Fragment>
   );
