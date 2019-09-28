@@ -1,16 +1,18 @@
+import PropTypes from 'prop-types';
 import React from 'react';
 import { CircleSlider } from 'react-circle-slider';
-import PropTypes from 'prop-types';
 
 const RADIUS = 300;
 const STEP_SIZE = 10; // minutes
 const MAX = 8 * 60; // 8 hours
+const MIN = 30;
 
 const TimePicker = ({ handleChange, time }) => {
   return (
     <CircleSlider
       size={RADIUS}
       max={MAX}
+      min={MIN}
       shadow={false}
       stepSize={STEP_SIZE}
       value={time}

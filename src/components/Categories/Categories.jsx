@@ -1,11 +1,12 @@
-import React from 'react';
 import Grid from '@material-ui/core/Grid';
-import EmojiCategory from '../EmojiCategory/EmojiCategory';
-import styled from 'styled-components';
+import React from 'react';
 import { useDispatch } from 'react-redux';
-import { appendEmoji } from '../../store/emoji/actions';
+import styled from 'styled-components';
 
-const emojis = ['😀', '🥞', '🚴', '🥳'];
+import { appendEmoji } from '../../store/emoji/actions';
+import EmojiCategory from '../EmojiCategory/EmojiCategory';
+
+const emojis = ['🍻', '👩‍💻', '🌲', '🍩'];
 
 const StyledGrid = styled(Grid)`
   padding: 0.5em;

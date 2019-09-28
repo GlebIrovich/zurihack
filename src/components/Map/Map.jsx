@@ -1,12 +1,9 @@
-import CircularProgress from '@material-ui/core/CircularProgress';
 import React, { useCallback, useEffect, useState } from 'react';
 import { DirectionsRenderer, GoogleMap, Marker, withGoogleMap, withScriptjs } from 'react-google-maps';
 import { useDispatch, useSelector } from 'react-redux';
 import { compose, withProps } from 'recompose';
-import styled from 'styled-components';
 
 import { addData } from '../../store/data/actions';
-import { addLocation } from '../../store/location/actions';
 import { dataSelector } from '../../store/selectors/data';
 import { locationSelector } from '../../store/selectors/location';
 
@@ -15,13 +12,6 @@ const DEFAULT_CENTER = {
   lat: 47.36667,
   lng: 8.55,
 };
-
-const StyledProgress = styled(CircularProgress)`
-  position: absolute;
-  top: 50%;
-  margin: 0 auto;
-  width: 100%;
-`;
 
 const itemToWaypoint = ({ geo: { lat, lng } }) => ({ location: { lat, lng } });
 
@@ -49,11 +39,13 @@ const Map = compose(
   const [directions, setDirections] = useState(null);
 
   const fetchData = useCallback(() => {
-    dispatch(addLocation());
     dispatch(addData());
   }, [dispatch]);
+
+  useEffect(fetchData, [location]);
+
   useEffect(() => {
-    if (location && data) {
+    if (location && data && data.length) {
       const DirectionsService = new window.google.maps.DirectionsService();
       const waypoints = dataToWaypoints(data);
       DirectionsService.route(
@@ -71,10 +63,8 @@ const Map = compose(
           }
         }
       );
-    } else {
-      fetchData();
     }
-  }, [data, location, fetchData]);
+  }, [location, data]);
 
   useEffect(() => {
     if (directions && data && location) {
@@ -83,9 +73,31 @@ const Map = compose(
   }, [handleLoading, directions, data, location]);
   return (
     <React.Fragment>
-      <GoogleMap defaultZoom={DEFAULT_ZOOM} defaultCenter={DEFAULT_CENTER}>
-        {data && data.map((item) => <Marker key={item.emoji} label={item.emoji} position={item.geo} />)}
-        {location && <Marker label="you" position={location} />}
+      <GoogleMap
+        defaultZoom={DEFAULT_ZOOM}
+        defaultCenter={DEFAULT_CENTER}
+        options={{ streetViewControl: false, mapTypeControl: false }}
+      >
+        {data &&
+          data.map((item) => (
+            <Marker
+              key={item.emoji}
+              icon={{
+                url: 'http://maps.google.com/mapfiles/ms/icons/blue-dot.png',
+              }}
+              label={{ text: `${item.emoji} ${item.name}`, color: '#ff5f6d', fontWeight: 'bold' }}
+              position={item.geo}
+            />
+          ))}
+        {location && (
+          <Marker
+            icon={{
+              url: 'http://maps.google.com/mapfiles/ms/icons/blue-dot.png',
+            }}
+            label={{ text: 'you', color: '#ff5f6d', fontWeight: 'bold' }}
+            position={location}
+          />
+        )}
         {directions && <DirectionsRenderer directions={directions} options={{ markerOptions: { visible: false } }} />}
       </GoogleMap>
     </React.Fragment>

@@ -22,7 +22,7 @@ function Routing() {
       <Switch location={item}>
         <Switch>
           <Route path={routes.time}>{hasEmojiInput ? <Time /> : <Redirect to={routes.main} />}</Route>
-          <Route path={routes.map}>{hasEmojiInput ? <MapPage /> : <MapPage />}</Route>
+          <Route path={routes.map}>{hasEmojiInput ? <MapPage /> : <Redirect to={routes.main} />}</Route>
           <Route path={routes.main}>
             <Main />
           </Route>

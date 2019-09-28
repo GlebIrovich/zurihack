@@ -1,5 +1,6 @@
 import CircularProgress from '@material-ui/core/CircularProgress';
-import React, { useState } from 'react';
+import React, { useCallback, useState } from 'react';
+import { useDispatch } from 'react-redux';
 import { useHistory } from 'react-router-dom';
 import styled from 'styled-components';
 
@@ -9,6 +10,7 @@ import GridLayout from '../components/GridLayout/GridLayout';
 import Map from '../components/Map/Map';
 import SelectedTime from '../components/SelectedTime/SelectedTime';
 import { routes } from '../constants';
+import { addData } from '../store/data/actions';
 
 const StyledSelectedTime = styled(SelectedTime)`
   position: relative;
@@ -28,14 +30,18 @@ const StyledProgress = styled(CircularProgress)`
   margin: 0 auto;
   width: 100%;
   z-index: 100;
-  color: #2193b0 !important;
+  color: #ff5f6d !important;
 `;
 
 const MapPage = () => {
   const { push } = useHistory();
   const [isLoading, setLoading] = useState(true);
-  const handleClickShuffle = () => console.log('Shuffle');
-  const handleClickBack = () => push(routes.time);
+  const handleClickBack = () => push(routes.main);
+  const dispatch = useDispatch();
+  const shuffle = useCallback(() => {
+    setLoading(true);
+    dispatch(addData());
+  }, [dispatch]);
 
   return (
     <GridLayout
@@ -53,7 +59,7 @@ const MapPage = () => {
       }
       footer={[
         <Button key="back" label="Back" icon="👈" handleClick={handleClickBack} left />,
-        <Button key="shuffle" label="Shuffle" icon="🎲" handleClick={handleClickShuffle} />,
+        <Button key="shuffle" label="Shuffle" icon="🎲" handleClick={shuffle} />,
       ]}
     />
   );
