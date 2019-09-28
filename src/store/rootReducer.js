@@ -1,5 +1,6 @@
 import { combineReducers } from 'redux';
 import { emojiReducer } from './emoji/reducer';
+import { timeReducer } from './time/reducer';
 
 const testReducer = (state = 0, action) => {
   switch (action.type) {
@@ -15,4 +16,5 @@ const testReducer = (state = 0, action) => {
 export const rootReducer = combineReducers({
   test: testReducer,
   emoji: emojiReducer,
+  time: timeReducer,
 });

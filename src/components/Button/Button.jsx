@@ -7,9 +7,9 @@ const Margin = styled.span`
   margin-right: 0.8em;
 `;
 
-const Button = ({ label, icon }) => {
+const Button = ({ label, icon, handleClick, disabled }) => {
   return (
-    <MaterialButton size="large" variant="outlined" color="default">
+    <MaterialButton size="large" variant="outlined" color="default" onClick={handleClick} disabled={disabled}>
       {label}
       {icon && <Margin />}
       {icon}
@@ -20,6 +20,8 @@ const Button = ({ label, icon }) => {
 Button.propTypes = {
   label: PropTypes.string.isRequired,
   icon: PropTypes.node,
+  handleClick: PropTypes.func.isRequired,
+  disabled: PropTypes.bool.isRequired,
 };
 
 export default Button;
