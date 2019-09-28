@@ -42,7 +42,7 @@ const EmojiInput = ({ autoFocus }) => {
 
   useEffect(() => {
     if (autoFocus && node && node.querySelector('input')) {
-      node.querySelector('input').focus();
+      setTimeout(() => node.querySelector('input').focus(), 200);
     }
   }, [autoFocus, node]);
 

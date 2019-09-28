@@ -9,6 +9,8 @@ const Margin = styled.span`
 
 const StyledButton = styled(MaterialButton)`
   border-color: azure !important;
+  border-width: 2px !important;
+  font-weight: bold !important;
   color: azure !important;
 `;
 

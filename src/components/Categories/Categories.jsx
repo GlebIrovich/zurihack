@@ -10,6 +10,7 @@ const emojis = ['🍻', '👩‍💻', '🌲', '🍩'];
 
 const StyledGrid = styled(Grid)`
   padding: 0.5em;
+  margin-bottom: 6em;
 `;
 
 const Categories = () => {
