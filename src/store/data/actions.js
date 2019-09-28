@@ -13,8 +13,16 @@ export const addData = () => async (dispatch, getState) => {
   if (!location) {
     await dispatch(addLocation());
     location = await locationSelector(getState());
-    dispatch(getData()).then((data) => dispatch(add(data.points)));
+    dispatch(getData()).then((data) => {
+      if (data) {
+        dispatch(add(data.points));
+      }
+    });
   } else {
-    dispatch(getData()).then((data) => dispatch(add(data.points)));
+    dispatch(getData()).then((data) => {
+      if (data) {
+        dispatch(add(data.points));
+      }
+    });
   }
 };
